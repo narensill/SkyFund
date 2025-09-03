@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { CustomButton } from "./";
 import { logo, search, menu, thirdweb } from "../assets";
 import { navlinks } from "../constants";
+import { useStateContext } from "../context/useStateContext.js";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
-  const [toggleDrawer, setToggleDrawer] = useState(true);
-  const address = "0x1234567890abcdef1234567890abcdef12345678"; // Example address
+  const [toggleDrawer, setToggleDrawer] = useState(false);
+  const{connect, address} = useStateContext();
+  //const address = "0x1234567890abcdef1234567890abcdef12345678"; // Example address
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
@@ -35,8 +37,8 @@ const Navbar = () => {
           title={address ? "Create a campaign" : "Connect Wallet"}
           styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
           handleClick={() => {
-            if (address) navigate("create-campaign");
-            else console.log("connect()");
+            if (address) navigate('create-campaign');
+            else connect();
           }}
         />
         <Link to="/profile">
@@ -111,8 +113,8 @@ const Navbar = () => {
               title={address ? "Create a campaign" : "Connect Wallet"}
               styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
               handleClick={() => {
-                if (address) navigate("create-campaign");
-                else console.log("connect()");
+                if (address) navigate('create-campaign');
+                else connect();
               }}
             />
           </div>
