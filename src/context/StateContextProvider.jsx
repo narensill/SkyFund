@@ -10,10 +10,12 @@ import { ethers } from "ethers";
 export const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-  const { contract } = useContract(
+  // Load your deployed contract
+  const { contract ,isLoading: contractLoading } = useContract(
     "0x1a191a6d62a11f8fc4be3ff6000806b7e9f543da"
   );
 
+  // Hook for writing to the contract
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
     "createCampaign"
@@ -22,6 +24,7 @@ export const StateContextProvider = ({ children }) => {
   const address = useAddress();
   const connect = useMetamask();
 
+  // Publish new campaign
   const publishCampaign = async (form) => {
     try {
       const data = await contract.call("createCampaign", [
@@ -38,19 +41,30 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
+  // Fetch all campaigns
   const getCampaigns = async () => {
-    const campaigns = await contract.call("getCampaigns");
-    const parsedCampaigns = campaigns.map((campaign, i) => ({
-      owner: campaign.owner,
-      title: campaign.title,
-      description: campaign.description,
-      target: ethers.utils.formatEther(campaign.target.toString()),
-      deadline: campaign.deadline.toNumber(),
-      amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
-      image: campaign.image,
-      pId: i,
-    }));
-    return parsedCampaigns;
+    try {
+      const campaigns = await contract.call("getCampaigns");
+
+      const parsedCampaigns = campaigns.map((campaign, i) => ({
+        owner: campaign.owner,
+        title: campaign.title,
+        description: campaign.description,
+        target: ethers.utils.formatEther(campaign.target.toString()),
+        deadline: Number(campaign.deadline),
+        amountCollected: ethers.utils.formatEther(
+          campaign.amountCollected.toString()
+        ),
+        image: campaign.image,
+        pId: i,
+      }));
+
+      console.log("final plz",parsedCampaigns)
+      return parsedCampaigns;
+    } catch (error) {
+      console.error("Error fetching campaigns:", error);
+      return [];
+    }
   };
 
   return (
