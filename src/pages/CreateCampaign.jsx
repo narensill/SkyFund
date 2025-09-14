@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { CustomButton, FormField } from "../components";
 import { uploadToIPFS } from "../utils/ipfsupload";
@@ -15,6 +15,7 @@ const CreateCampaign = () => {
     target: "",
     deadline: "",
     image: "",
+    category: "",
   });
   const { createCampaign } = useStateContext();
 
@@ -46,7 +47,13 @@ const CreateCampaign = () => {
     try {
       setIsLoading(true);
 
-      await createCampaign(form);
+      await createCampaign({
+        ...form,
+        description: `name::${form.name}||category::${
+          form.category || "uncategorized"
+        }||desc::${form.description}`,
+      });
+
       navigate("/");
     } catch (error) {
       console.error("Error creating campaign:", error);
@@ -57,11 +64,11 @@ const CreateCampaign = () => {
   };
 
   return (
-    <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
+    <div className="bg-[#FFFFE2] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
       {isLoading && <p>Loading...</p>}
 
-      <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#3a3a43] rounded-[15px]">
-        <h1 className="font-epilogue font-bold sn:text-[25px] text-[18px] leading-[38px] text-white">
+      <div className="flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#EBEBCE] rounded-[15px] border border-[#3a3a43]">
+        <h1 className="font-epilogue font-bold sn:text-[25px] text-[18px] leading-[38px] text-black">
           Start a campaign
         </h1>
       </div>
@@ -72,7 +79,7 @@ const CreateCampaign = () => {
         <div className="flex flex-wrap gap-[40px]">
           <FormField
             LabelName="Your Name *"
-            placeholder="NEW user"
+            placeholder="Enter your name"
             inputType="text"
             value={form.name}
             handleChange={(e) => handleFormFieldChange("name", e)}
@@ -130,6 +137,15 @@ const CreateCampaign = () => {
           isTextArea
           value={form.description}
           handleChange={(e) => handleFormFieldChange("description", e)}
+          styles="text=[#3a3a43]"
+        />
+        <FormField
+          LabelName="Category *"
+          inputType="select"
+          placeholder="Select a category"
+          value={form.category}
+          handleChange={(e) => handleFormFieldChange("category", e)}
+          options={["Education", "Luxury", "Work", "Research"]}
         />
 
         <div className="flex flex-wrap gap-[40px]">
@@ -145,6 +161,7 @@ const CreateCampaign = () => {
             placeholder="Set a Date"
             inputType="date"
             value={form.deadline}
+            styles="text-[#3a3a43]"
             handleChange={(e) => handleFormFieldChange("deadline", e)}
           />
         </div>
@@ -153,7 +170,7 @@ const CreateCampaign = () => {
           <CustomButton
             btnType="submit"
             title="Submit new campaign"
-            styles="bg-[#1d1c071]"
+            styles="bg-[#1d1c071] border border-[#3a3a43] text-black"
           />
         </div>
       </form>

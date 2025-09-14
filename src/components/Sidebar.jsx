@@ -20,10 +20,10 @@ const Sidebar = () => {
   return (
     <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
       <Link to="/">
-        <Icon styles="w-[52px] h-[52px] bg-[#2c2f32]" imgUrl={logo}/>
+        <Icon styles="w-[52px] h-[52px] bg-[#FFFFF2] border border-[#3a3a43] shadow-secondary" imgUrl={logo}/>
       </Link>
-        <div className='flex-1 flex flex-col justify-between items-center bg-[1C1c24] rounded-[20px] w-[76px] py-4 mt-12'>
-          <div className='flex flex-col justidfy-center items-center gap-3'>
+        <div className='flex-1 flex flex-col justify-between items-center rounded-[20px] w-[76px] py-4 mt-12'>
+          <div className='flex flex-col justidfy-center items-center gap-3 '>
             {navlinks.map((link) => (
               <Icon
               key={link.name}
@@ -35,11 +35,12 @@ const Sidebar = () => {
                   navigate(link.link);
                 }
               }}
+              styles="bg-[#FFFFE2] shadow-secondary hover:bg-[#EBEBCE]"
               />
             ))}
 
           </div>
-          <Icon styles="bg-[#1C1c24] shadow-secondary" imgUrl={sun} />
+          <Icon styles="bg-[#FFFFE2] shadow-secondary border border-[#3a3a43]" imgUrl={sun} />
         </div>
     </div>
   )

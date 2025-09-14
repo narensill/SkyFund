@@ -9,13 +9,12 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
   const [toggleDrawer, setToggleDrawer] = useState(false);
-  const{connect, address} = useStateContext();
-  //const address = "0x1234567890abcdef1234567890abcdef12345678"; // Example address
+  const { connect, address } = useStateContext();
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
       {/* Search Bar */}
-      <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[20px]">
+      <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#FFFFF2] rounded-[20px] border border-[#3a3a43 shadow-secondary">
         <input
           type="text"
           placeholder="Search for campaigns"
@@ -31,18 +30,18 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Buttons */}
-      <div className="sm:flex hidden flex-row justify-end gap-4">
+      <div className="sm:flex hidden flex-row justify-end gap-4 ">
         <CustomButton
           btnType="button"
           title={address ? "Create a campaign" : "Connect Wallet"}
-          styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
+          styles={address ? "bg-[#1dc071] shadow-secondary" : "bg-[#8c6dfd] shadow-secondary"}
           handleClick={() => {
-            if (address) navigate('create-campaign');
+            if (address) navigate("create-campaign");
             else connect();
           }}
         />
         <Link to="/profile">
-          <div className="w-[52px] h-[52px] rounded-[20px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+          <div className="w-[52px] h-[52px] rounded-[20px] bg-[#FFFFF7] flex justify-center items-center cursor-pointer border border-[#3a3a43] shadow-secondary">
             <img
               src={thirdweb}
               alt="user"
@@ -55,7 +54,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {/* Mobile Menu */}
       <div className="sm:hidden flex justify-between items-center relative gap-x-4">
-        <div className="w-[40px] h-[40px] rounded-[20px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+        <div className="w-[40px] h-[40px] rounded-[20px] bg-[#FFFFE2] flex justify-center items-center cursor-pointer shadow-secondary">
           <img
             src={thirdweb}
             alt="user"
@@ -71,18 +70,18 @@ const Navbar = () => {
 
         {/* Drawer */}
         <div
-          className={`fixed top-[60px] left-0 right-0 bg-[#1c1c24] z-40 shadow-secondary py-4 transform transition-transform duration-500 overflow-auto max-h-[calc(100vh-60px)] ${
+          className={`fixed top-[60px] left-0 right-0 bg-[#FFFFE2] z-40 shadow-secondary py-4 transform transition-transform duration-500 overflow-auto max-h-[calc(100vh-60px)] ${
             toggleDrawer
               ? "translate-y-0"
               : "translate-y-[100vh] pointer-events-none"
           }`}
         >
-          <ul className="mb-4">
+          <ul className="mb-4 ">
             {navlinks.map((link) => (
               <li
                 key={link.name}
-                className={`flex p-4 cursor-pointer ${
-                  isActive === link.name ? "bg-[#3a3a43]" : "hover:bg-[#2a2a33]"
+                className={`flex p-4 cursor-pointer relative group ${
+                  isActive === link.name ? "bg-[#FFFFEE]" : "hover:bg-[#EBEBCE]"
                 }`}
                 onClick={() => {
                   setIsActive(link.name);
@@ -97,13 +96,15 @@ const Navbar = () => {
                     isActive === link.name ? "grayscale-0" : "grayscale"
                   }`}
                 />
-                <p
-                  className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
-                    isActive === link.name ? "text-[#1dc071]" : "text-[#ccc]"
-                  }`}
-                >
+                <p className="ml-[20px] font-epilogue font-semibold text-[14px] text-[#3a3a43]">
                   {link.name}
                 </p>
+
+                {/* underline effect */}
+                <span
+                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#3a3a43] transition-all duration-300 
+      ${isActive === link.name ? "w-3/4" : "w-1/2 group-hover:w-3/4"}`}
+                ></span>
               </li>
             ))}
           </ul>
@@ -113,7 +114,7 @@ const Navbar = () => {
               title={address ? "Create a campaign" : "Connect Wallet"}
               styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
               handleClick={() => {
-                if (address) navigate('create-campaign');
+                if (address) navigate("create-campaign");
                 else connect();
               }}
             />
