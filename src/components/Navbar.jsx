@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
       {/* Search Bar */}
-      <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#FFFFF2] rounded-[20px] border border-[#3a3a43 shadow-secondary">
+      <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#FFFFF2] rounded-[20px] border border-[#3a3a43] shadow-secondary">
         <input
           type="text"
           placeholder="Search for campaigns"
@@ -34,7 +34,7 @@ const Navbar = () => {
         <CustomButton
           btnType="button"
           title={address ? "Create a campaign" : "Connect Wallet"}
-          styles={address ? "bg-[#1dc071] shadow-secondary" : "bg-[#8c6dfd] shadow-secondary"}
+          styles={address ? "bg-[#20B024] shadow-secondary" : "bg-[#8c6dfd] shadow-secondary"}
           handleClick={() => {
             if (address) navigate("create-campaign");
             else connect();
