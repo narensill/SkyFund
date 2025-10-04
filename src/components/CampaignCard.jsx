@@ -15,6 +15,7 @@ const CampaignCard = ({
   handleClick,
 }) => {
   const remainingDays = daysLeft(deadline);
+  console.log("Category:", category);
 
   return (
     <div
