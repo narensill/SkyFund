@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import signupImage from "../assets/signin-image.png"; // import your image here
+import signupImage from "../assets/signin-dark.png"; // import your image here
 
 const Signup = () => {
   const { signup } = useAuth();
@@ -23,7 +23,7 @@ const Signup = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-4 shadow-secondary rounded-[10px] overflow-hidden bg-white">
+      <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-4 shadow-secondary rounded-[10px] overflow-hidden bg-transparent">
         
         {/* Left Side - Image */}
         <div className="w-full lg:w-1/2 h-[400px] lg:h-auto">

@@ -6,6 +6,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { useAuth } from "./auth/AuthContext";
+import { useDarkMode } from "./context/DarkModeContext.jsx"; // ⬅ Import dark mode context
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
@@ -18,18 +19,25 @@ const ProtectedRoute = ({ children }) => {
 const App = () => {
   const { user } = useAuth();
   const location = useLocation();
+  const { darkMode } = useDarkMode(); // ⬅ Access global dark mode state
 
-  // Pages where we don't want Navbar/Sidebar
   const publicPaths = ["/", "/login", "/signup"];
   const isPublicPage = publicPaths.includes(location.pathname);
 
+  // ✅ Dark and Light Backgrounds
+  const bgPattern = darkMode
+    ? "bg-[#0d001a] bg-[radial-gradient(#bb99ff22_2px,#0d001a_1px)]"
+    : "bg-[#FFFFF7] bg-[radial-gradient(#00000022_2px,#FFFFF7_1px)]";
+
   return (
     <div className="relative min-h-screen">
-      {/* Background Layer */}
-      <div className="fixed top-0 z-[-2] h-screen w-screen bg-[#FFFFF7] bg-[radial-gradient(#00000022_2px,#FFFFF7_1px)] bg-[size:20px_20px] animate-fall" />
+      {/* ✅ Background Layer changes with mode */}
+      <div
+        className={`fixed top-0 z-[-2] h-screen w-screen ${bgPattern} bg-[size:20px_20px] animate-fall transition-all duration-500`}
+      />
 
       <div className="relative sm:-8 p-4 min-h-screen flex flex-row">
-        {/* Sidebar only for logged in (not on Landing/Login/Signup) */}
+        {/* Sidebar (only when logged in) */}
         {!isPublicPage && user && (
           <div className="sm:flex hidden mr-10 relative">
             <Sidebar />
@@ -37,7 +45,7 @@ const App = () => {
         )}
 
         <div className="flex-1 max-sm:w-full max-w-[1280px] mx-auto sm:pr-5">
-          {/* Navbar only for logged in (not on Landing/Login/Signup) */}
+          {/* Navbar (only when logged in) */}
           {!isPublicPage && user && <Navbar />}
 
           <Routes>

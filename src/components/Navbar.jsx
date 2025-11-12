@@ -4,21 +4,33 @@ import { CustomButton } from "./";
 import { logo, search, menu, thirdweb } from "../assets";
 import { navlinks } from "../constants";
 import { useStateContext } from "../context/useStateContext.js";
+import { useDarkMode } from "../context/DarkModeContext.jsx";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const { connect, address } = useStateContext();
+  const { darkMode } = useDarkMode();
+
+  const baseBg = darkMode ? "bg-[#1A1A2E]" : "bg-[#FFFFF2]";
+  const inputText = darkMode
+    ? "text-white placeholder:text-gray-400"
+    : "text-black placeholder:text-[#4b5264]";
+  const drawerBg = darkMode ? "bg-[#2A2A3D]" : "bg-[#FFFFE2]";
+  const textColor = darkMode ? "text-white" : "text-[#3a3a43]";
+  const hoverBg = darkMode ? "hover:bg-[#3A3A5D]" : "hover:bg-[#EBEBCE]";
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
       {/* Search Bar */}
-      <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#FFFFF2] rounded-[20px] border border-[#3a3a43] shadow-secondary">
+      <div
+        className={`lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] ${baseBg} rounded-[20px] border border-[#3a3a43] shadow-secondary`}
+      >
         <input
           type="text"
           placeholder="Search for campaigns"
-          className="flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#4b5264] text-white bg-transparent outline-none"
+          className={`flex w-full font-epilogue font-normal text-[14px] bg-transparent outline-none ${inputText}`}
         />
         <div className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer">
           <img
@@ -34,14 +46,22 @@ const Navbar = () => {
         <CustomButton
           btnType="button"
           title={address ? "Create a campaign" : "Connect Wallet"}
-          styles={address ? "bg-[#20B024] shadow-secondary" : "bg-[#8c6dfd] shadow-secondary"}
+          styles={
+            address
+              ? "bg-[#20B024] shadow-secondary"
+              : "bg-[#8c6dfd] shadow-secondary"
+          }
           handleClick={() => {
             if (address) navigate("create-campaign");
             else connect();
           }}
         />
         <Link to="/profile">
-          <div className="w-[52px] h-[52px] rounded-[20px] bg-[#FFFFF7] flex justify-center items-center cursor-pointer border border-[#3a3a43] shadow-secondary">
+          <div
+            className={`w-[52px] h-[52px] rounded-[20px] flex justify-center items-center cursor-pointer border border-[#3a3a43] shadow-secondary ${
+              darkMode ? "bg-[#2A2A3D]" : "bg-[#FFFFF7]"
+            }`}
+          >
             <img
               src={thirdweb}
               alt="user"
@@ -52,9 +72,12 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      {/* Mobile Menu */}
       <div className="sm:hidden flex justify-between items-center relative gap-x-4">
-        <div className="w-[40px] h-[40px] rounded-[20px] bg-[#FFFFE2] flex justify-center items-center cursor-pointer shadow-secondary">
+        <div
+          className={`w-[40px] h-[40px] rounded-[20px] flex justify-center items-center cursor-pointer shadow-secondary ${
+            darkMode ? "bg-[#2A2A3D]" : "bg-[#FFFFE2]"
+          }`}
+        >
           <img
             src={thirdweb}
             alt="user"
@@ -70,7 +93,7 @@ const Navbar = () => {
 
         {/* Drawer */}
         <div
-          className={`fixed top-[60px] left-0 right-0 bg-[#FFFFE2] z-40 shadow-secondary py-4 transform transition-transform duration-500 overflow-auto max-h-[calc(100vh-60px)] ${
+          className={`fixed top-[60px] left-0 right-0 ${drawerBg} z-40 shadow-secondary py-4 transform transition-transform duration-500 overflow-auto max-h-[calc(100vh-60px)] ${
             toggleDrawer
               ? "translate-y-0"
               : "translate-y-[100vh] pointer-events-none"
@@ -81,7 +104,11 @@ const Navbar = () => {
               <li
                 key={link.name}
                 className={`flex p-4 cursor-pointer relative group ${
-                  isActive === link.name ? "bg-[#FFFFEE]" : "hover:bg-[#EBEBCE]"
+                  isActive === link.name
+                    ? darkMode
+                      ? "bg-[#3A3A5D]"
+                      : "bg-[#FFFFEE]"
+                    : hoverBg
                 }`}
                 onClick={() => {
                   setIsActive(link.name);
@@ -96,14 +123,17 @@ const Navbar = () => {
                     isActive === link.name ? "grayscale-0" : "grayscale"
                   }`}
                 />
-                <p className="ml-[20px] font-epilogue font-semibold text-[14px] text-[#3a3a43]">
+                <p
+                  className={`ml-[20px] font-epilogue font-semibold text-[14px] ${textColor}`}
+                >
                   {link.name}
                 </p>
 
                 {/* underline effect */}
                 <span
-                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#3a3a43] transition-all duration-300 
-      ${isActive === link.name ? "w-3/4" : "w-1/2 group-hover:w-3/4"}`}
+                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#3a3a43] transition-all duration-300 ${
+                    isActive === link.name ? "w-3/4" : "w-1/2 group-hover:w-3/4"
+                  }`}
                 ></span>
               </li>
             ))}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import loginImage from "../assets/login-image.png";
+import logindark from "../assets/logindark.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -33,12 +33,12 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center h-screen ">
-      <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-4 shadow-secondary rounded-[10px] overflow-hidden bg-white">
+      <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-4 shadow-secondary rounded-[10px] overflow-hidden bg-transparent">
         
         {/* Left Side - Image */}
         <div className="w-full lg:w-1/2 h-[400px] lg:h-auto">
           <img
-            src={loginImage}
+            src={logindark}
             alt="Login"
             className="w-full h-full object-cover"
           />
